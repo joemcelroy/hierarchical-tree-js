@@ -1,0 +1,278 @@
+
+
+/*taxonomy tree*/
+
+ul.tree {
+overflow:hidden;
+float:left;
+clear:both;
+position:relative;
+width:250px }
+
+ul.tree {
+position:relative;
+right:32px }
+
+ul.tree ul {
+position:relative;
+right:32px }
+
+ul.tree ul ul {
+position:relative;
+right:36px }
+
+ul.tree ul li {
+position:relative;
+width:234px;
+padding-left:48px }
+
+ul.tree ul ul li {
+width:222px }
+
+ul.tree ul ul ul li {
+width:217px }
+
+ul.tree ul div {
+left:60px }
+
+ul.tree ul .closed span,
+ul.tree ul .open span {
+left:40px }
+
+ul.tree .closed > ul {
+display:none }
+
+ul.tree li {
+width:257px;
+font-size:13px;
+font-weight:500;
+line-height:16px;
+float:left;
+padding:0 0 0 16px;
+clear:both;
+position:relative }
+
+ul.tree li ul {
+float:left;
+clear:both;
+margin:0 }
+
+ul.tree li ul li ul {
+margin:0 }
+
+ul.tree .closed span,
+ul.tree .open span {
+opacity:.5;
+position:absolute;
+top:5px;
+left:8px;
+clear:left;
+float:left;
+width:21px;
+height:13px;
+filter:alpha(opacity = 50)\9 }
+
+ul.tree li.closed > span {
+background:url(../img/closed.png) no-repeat 8px 2px }
+
+ul.tree li.open > span {
+background:url(../img/open.png) no-repeat 8px 3px }
+
+ul.tree .closed span:hover {
+opacity:1;
+cursor:pointer;
+filter:alpha(opacity = 100)\9 }
+
+ul.tree .open span:hover {
+opacity:1;
+cursor:pointer;
+filter:alpha(opacity = 100)\9 }
+
+ul.tree div {
+display:inline;
+position:absolute;
+top:4px;
+left:28px;
+clear:left;
+float:left;
+width:16px;
+height:17px }
+
+ul.tree li.closed.withFolder > span + a > div {
+background:url(../img/folder.png) no-repeat 0 0!important }
+
+ul.tree li.open.withFolder > span + a > div {
+background:url(../img/folderOpen.png) no-repeat 0 0 }
+
+ul.tree li.checkbox input {
+float:left;
+cursor:pointer;
+margin:0 7px 0 3px;
+position:absolute;
+top:5px;
+left:27px;
+top:2px\9;
+left:25px\9;
+*top:1px }
+
+ul.tree ul li.checkbox input {
+left:59px;
+left:56px\9;
+*left:55px  }
+
+ul.tree a {
+display:block;
+margin:0 0 0 28px;
+padding:3px 0 3px 5px;
+color:#4c4c4c;
+float:left }
+
+ul.tree label {
+display:block;
+cursor:pointer;
+margin:0 0 0 28px;
+padding:2px 0 3px 5px;
+color:#4c4c4c;
+float:left }
+
+ul.tree label:hover {
+text-decoration:underline }
+
+ul.tree label:active {
+text-decoration:none }
+
+ul.tree h4 {
+line-height:16px;
+padding:0 }
+
+ul.tree h4,
+ul.tree label strong {
+font-size:13px;
+font-weight:500;
+display:inline }
+
+ul.tree a:hover h4 { 
+text-decoration:underline }
+
+ul.tree a:active h4 { 
+text-decoration:none }
+
+ul.tree em {
+padding:0 0 0 5px;
+opacity:.5;
+font-style:normal;
+color:#999\9 }
+
+ul.tree li.active em {
+padding:0 12px 0 12px;
+opacity:1;
+background:url(../img/check.png) no-repeat 6px 2px;
+color:transparent;
+font-weight:400;
+background:url(../img/check.png) no-repeat 12px 2px\9;
+height:16px\9;
+width:16px\9;
+float:right\9;
+position:relative\9;
+right:5px\9;
+top:1px\9;
+font-size:1px\9;
+color:#fff\9;
+padding:0 0 0 20px\9;
+*background:url(../img/check.png) no-repeat 0px 0\9;
+*padding:0 12px 0 12px;
+*float:none;
+*line-height:0px;
+*font-size:1px;
+*zoom:1;
+*width:12px;
+*height:10px;
+*top:1px;
+*right:-6px }
+
+ul.tree li.active a:hover {
+text-decoration:none;
+color:red }
+
+ul.tree li.active a:hover em {
+background:url(../img/removeRed.png) no-repeat 3px 0;
+background:url(../img/removeRed.png) no-repeat 10px 0\9;
+*background:url(../img/removeRed.png) no-repeat -2px -3px }
+
+
+/*action menu*/
+
+.actionMenu {
+border:none;
+/*display:none;*/
+width:160px;
+padding:3px;
+background:rgb(0,0,0);
+background:rgba(0,0,0,.5);
+position:absolute;
+z-index:999 }
+
+.actionMenu ul li {
+width:100%;
+float:left;
+border-bottom:solid 1px #f0f0f0;
+background:#fff;
+position:relative }
+
+.actionMenu ul li:last-child,
+.actionMenu ul li.last {
+border-bottom:none }
+
+.actionMenu ul li a {
+color:#2382E1;
+font-size:13px;
+padding:4px 10px 4px 10px;
+font-weight:500;
+display:block }
+
+.actionMenu li a:hover {
+text-decoration:underline;
+color:#2382E1 }
+
+.actionMenu li a:active {
+text-decoration:none;
+color:#333 }
+
+.actionMenu ul li:first-child {
+-webkit-border-top-left-radius:3px;
+-webkit-border-top-right-radius:3px;
+-moz-border-radius-topleft:3px;
+-moz-border-radius-topright:3px;
+border-top-left-radius:3px;
+border-top-right-radius:3px }
+
+.actionMenu ul li:last-child {
+-webkit-border-bottom-right-radius:3px;
+-webkit-border-bottom-left-radius:3px;
+-moz-border-radius-bottomright:3px;
+-moz-border-radius-bottomleft:3px;
+border-bottom-right-radius:3px;
+border-bottom-left-radius:3px }
+
+.actionMenu ul li {
+-webkit-border-radius:0px;
+-moz-border-radius:0px;
+border-radius:0px }
+
+.actionMenu {
+-webkit-border-radius:6px;
+-moz-border-radius:6px;
+border-radius:6px }
+
+.actionMenu span {
+opacity:.5;
+width:23px;
+height:10px;
+display:block;
+position:absolute;
+top:-8px;
+left:13px;
+background:url(../img/topArrow.png) no-repeat }
+
+
+

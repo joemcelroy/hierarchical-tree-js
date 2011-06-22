@@ -1,0 +1,58 @@
+
+.header,
+#subNav,
+div.leftFixed,
+.actions,
+ul.pagination,
+.thumbList,
+.breadcrumb,
+.playButton,
+.info,
+#pageNav,
+.hide,
+a.back,
+.videoBox {
+display:none!important }
+
+body,
+input,
+textarea,
+select {
+font-family:'Helvetica Neue', Arial, sans-serif } 
+
+.faved h2.heading {
+background:none!important;
+text-indent:0!important }
+
+div.rightFluid {
+padding:0!important }
+
+body h2.heading {
+font-size:15pt;
+line-height:25pt }
+
+body h3.subHead {
+clear:left;
+font-weight:500;
+font-size:12pt;
+line-height:21.25pt }
+
+body p.standfirst {
+font-size:10pt;
+font-weight:500;
+line-height:18.5pt }
+
+body p {
+font-size:9pt;
+line-height:18.5pt }
+
+a:link:after,
+a:visited:after {
+content: " (" attr(href) ") ";
+font-style:italic;
+font-size:90% }
+
+img,
+.breakPage {
+display:block;
+page-break-inside:avoid }
