@@ -1,6 +1,6 @@
 
 var data = [
-  { name: "zonnebloem", prettyName: "Zonnebloem", id: 8836, children: [
+  { name: "zonnebloem", prettyName: "Zonnebloem", id: 8836, selected:false, disabled:false, children: [
 
 	{ name: "zonnebloem", prettyName: "Zonnebloem", id: 8836, children: [
 

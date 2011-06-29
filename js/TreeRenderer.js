@@ -1,3 +1,10 @@
+/** Category Tree
+* 1.1
+* - Disabled nodes
+* - selected state propergated to its children
+* - disabled state propergated to its children
+**/ 
+
 (function(){
 
 Utils.namespace('VYRE.ForeFront');
@@ -9,6 +16,7 @@ VYRE.ForeFront.Node = function(id, name, nodeObject, parent ) {
 	this.data = nodeObject;
 	this.isSelected = false;
 	this.isLoaded = false;
+	this.isDisabled = false;
 	this.isChildrenLoaded = false;
 	
 	this.hierarchy = {
@@ -165,6 +173,15 @@ VYRE.ForeFront.NodeCollection = VYRE.ForeFront.EventTarget.extend({
 			return nodeList;
 		},
 		
+		index: function(data) {
+			
+			this.root = this._addNode("root", {} );
+
+			Utils.forEach(data, this._addNode.bind(this, this.root) );
+									
+			this.fire("reindex", this.nodeParentPathMap);
+		},
+		
 		_addNode: function(parent, data) {
 			// data for node
 			
@@ -176,11 +193,18 @@ VYRE.ForeFront.NodeCollection = VYRE.ForeFront.EventTarget.extend({
 			
 			if (parent instanceof VYRE.ForeFront.Node) {
 				parent.addChild(node);
+				node.isSelected = parent.isSelected ? true : false;
+				node.isDisabled = parent.isDisabled ? true : false;
 			}
 						
 			if (data.selected) {
 				node.setSelected();
 				delete data.selected;
+			}
+			
+			if (data.disabled) {
+				node.isDisabled = true;
+				delete data.disabled;
 			}
 			
 			this.nodeMap[id] = node;
@@ -247,16 +271,9 @@ VYRE.ForeFront.NodeCollection = VYRE.ForeFront.EventTarget.extend({
 					removeChild.bind(this, node)();
 			}
 						
-		},
-
-		index: function(data) {
-			
-			this.root = this._addNode("root", {} );
-
-			Utils.forEach(data, this._addNode.bind(this, this.root) );
-									
-			this.fire("reindex", this.nodeParentPathMap);
 		}
+
+
 		
 	});
 		
@@ -268,6 +285,8 @@ VYRE.ForeFront.TreeComponent = Class.extend({
 		this.nodeCollection = settings.collection;
 		this.nodeRenderer = settings.nodeRenderer;
 		this.container = $(settings.target);
+		
+		this.selectChildren = settings.selectChildren || false;
 
 		this.changeHandler = settings.changeHandler || function() {};
 		
@@ -303,16 +322,24 @@ VYRE.ForeFront.TreeComponent = Class.extend({
 		var li = jQuery(e.target || e.srcElement).closest("li");
 		var id = li.attr("class").match("node_([\\d]+)")[1];
 		var node = this.nodeCollection.getNode( Number(id) );
+		
+		if (!node.isDisabled) {
 						
-		if ( node.isSelected ) {
-			this.unselectNode(node);
+			if ( node.isSelected ) {
+				this.unselectNode(node);
+			} else {
+				this.selectNode(node);
+			}
+			
+			this.changeHandler(node);
+			e.stopPropagation();
+			
+			
 		} else {
-			this.selectNode(node);
+			e.preventDefault();
 		}
 		
-		this.changeHandler();
-						
-		e.stopPropagation();
+
 		
 	},
 	
@@ -329,9 +356,13 @@ VYRE.ForeFront.TreeComponent = Class.extend({
 		var selectNodes = "";
 		var self = this;
 		
+		var validNode = function(node) {
+			return ( (node instanceof VYRE.ForeFront.Node) && !node.isSelected && !node.isDisabled && !node.isRoot() )
+		}
+		
 		var selectChildren = function(nodeChild) {
 			
-			if ( (nodeChild instanceof VYRE.ForeFront.Node) && !nodeChild.isSelected && !node.isRoot()) {
+			if ( validNode(node) ) {
 				
 				nodeChild.isSelected = true;
 				selectNodes += self.selectSelector(nodeChild);
@@ -348,7 +379,7 @@ VYRE.ForeFront.TreeComponent = Class.extend({
 				
 		var selectParent = function(node) {
 			
-			if ( (node instanceof VYRE.ForeFront.Node) && !node.isSelected && !node.isRoot() ) {
+			if ( validNode(node) ) {
 				node.isSelected = true;
 				selectNodes += self.selectSelector(node);
 				selectParent( node.parent() );
@@ -356,11 +387,18 @@ VYRE.ForeFront.TreeComponent = Class.extend({
 			
 		}
 		
-		//selectChildren(node);
-		selectParent( node );
-								
-		$(selectNodes).prop("checked", true);
+		if (this.selectChildren) {
+			selectChildren( node );
+			selectParent( node.parent() );
+		} else {
+			selectParent( node );
+		}
+
+		var jqueryFn = function() {
+			$(selectNodes).prop("checked", true);
+		}
 		
+		jqueryFn();
 				
 	},
 	
@@ -379,10 +417,14 @@ VYRE.ForeFront.TreeComponent = Class.extend({
 		var unselectNodes = "";
 		var self = this;
 		
+		var validNode = function(node) {
+			return ( (node instanceof VYRE.ForeFront.Node) && node.isSelected  && !node.hasSelectedChildren()  && !node.isDisabled && !node.isRoot() )
+		}
+		
 		// scenerio 1
 		var unselectParent = function(node) {
 						
-			if ( (node instanceof VYRE.ForeFront.Node) && node.isSelected && !node.hasSelectedChildren() && !node.isRoot() ) {
+			if ( validNode(node) ) {
 				node.isSelected = false;
 				unselectNodes +=  self.selectSelector(node);
 				unselectParent( node.parent() );
@@ -412,9 +454,13 @@ VYRE.ForeFront.TreeComponent = Class.extend({
 			
 		}
 		unselectChildren(node);	
-		unselectParent( node )
-				
-		$(unselectNodes).prop("checked", false);
+		unselectParent( node );
+		
+		var jqueryFn = function() {
+			$(unselectNodes).prop("checked", false);
+		}
+		
+		jqueryFn()
 		
 	},
 	
