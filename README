@@ -1,0 +1,18 @@
+Example Usage Code
+
+  NC = new VYRE.ForeFront.NodeCollection(data);
+
+  TR = new VYRE.ForeFront.TreeComponent({
+  	collection: NC,
+  	nodeRenderer: VYRE.ForeFront.NodeRenderer,
+  	target: "#searchTree",
+  	selectChildren: true, 
+  	changeHandler: function(node) {
+  		var nodes = TR.nodeCollection.getSelectedNodes();
+  		console.log(nodes);
+
+  		for (var i=0;i < nodes.length; i++) {
+  			console.log( nodes[i].getPath() );
+  		}
+
+  	}
